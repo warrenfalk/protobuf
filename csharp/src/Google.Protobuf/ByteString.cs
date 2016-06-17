@@ -45,7 +45,10 @@ namespace Google.Protobuf
     {
         private static readonly ByteString empty = new ByteString(new byte[0]);
 
-        private readonly byte[] bytes;
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        public byte[] bytes;
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Unsafe operations that can cause IO Failure and/or other catestrophic side-effects.
@@ -83,7 +86,7 @@ namespace Google.Protobuf
         /// Constructs a new ByteString from the given byte array. The array is
         /// *not* copied, and must not be modified after this constructor is called.
         /// </summary>
-        private ByteString(byte[] bytes)
+        public ByteString(byte[] bytes)
         {
             this.bytes = bytes;
         }
