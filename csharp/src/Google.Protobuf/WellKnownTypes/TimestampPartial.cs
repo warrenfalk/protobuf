@@ -223,6 +223,21 @@ namespace Google.Protobuf.WellKnownTypes
         }
 
         /// <summary>
+        /// Given another timestamp, returns 0 if the timestamps are equivalent, -1 if this timestamp precedes the other, and 1 otherwise
+        /// </summary>
+        /// <param name="other">Timestamp to compare</param>
+        /// <returns>an integer indicating whether this timestamp precedes or follows the other</returns>
+        public int CompareTo(Timestamp other)
+        {
+            return other is null ? 1
+                : Seconds < other.Seconds ? -1
+                : Seconds > other.Seconds ? 1
+                : Nanos < other.Nanos ? -1
+                : Nanos > other.Nanos ? 1
+                : 0;
+        }
+
+        /// <summary>
         /// Returns a string representation of this <see cref="Timestamp"/> for diagnostic purposes.
         /// </summary>
         /// <remarks>

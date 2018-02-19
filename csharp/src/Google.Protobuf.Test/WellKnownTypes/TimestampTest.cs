@@ -111,5 +111,44 @@ namespace Google.Protobuf.WellKnownTypes
             var duration = new Timestamp { Seconds = 1, Nanos = -1 };
             Assert.AreEqual("{ \"@warning\": \"Invalid Timestamp\", \"seconds\": \"1\", \"nanos\": -1 }", duration.ToString());
         }
+
+        [Test]
+        public void Comparability()
+        {
+            Timestamp
+                a = null,
+                b = new Timestamp { Seconds = 1, Nanos = 1 },
+                c = new Timestamp { Seconds = 1, Nanos = 10 },
+                d = new Timestamp { Seconds = 10, Nanos = 1 },
+                e = new Timestamp { Seconds = 10, Nanos = 10 };
+
+            Assert.IsTrue(b.CompareTo(a) > 0); // null is always first (according to default behavior of Array.Sort)
+            Assert.IsTrue(b.CompareTo(b) == 0);
+            Assert.IsTrue(b.CompareTo(b.Clone()) == 0);
+            Assert.IsTrue(b.CompareTo(c) < 0);
+            Assert.IsTrue(b.CompareTo(d) < 0);
+            Assert.IsTrue(b.CompareTo(e) < 0);
+
+            Assert.IsTrue(c.CompareTo(a) > 0);
+            Assert.IsTrue(c.CompareTo(b) > 0);
+            Assert.IsTrue(c.CompareTo(c) == 0);
+            Assert.IsTrue(c.CompareTo(c.Clone()) == 0);
+            Assert.IsTrue(c.CompareTo(d) < 0);
+            Assert.IsTrue(c.CompareTo(e) < 0);
+
+            Assert.IsTrue(d.CompareTo(a) > 0);
+            Assert.IsTrue(d.CompareTo(b) > 0);
+            Assert.IsTrue(d.CompareTo(c) > 0);
+            Assert.IsTrue(d.CompareTo(d) == 0);
+            Assert.IsTrue(d.CompareTo(d.Clone()) == 0);
+            Assert.IsTrue(d.CompareTo(e) < 0);
+
+            Assert.IsTrue(e.CompareTo(a) > 0);
+            Assert.IsTrue(e.CompareTo(b) > 0);
+            Assert.IsTrue(e.CompareTo(c) > 0);
+            Assert.IsTrue(e.CompareTo(d) > 0);
+            Assert.IsTrue(e.CompareTo(e) == 0);
+            Assert.IsTrue(e.CompareTo(e.Clone()) == 0);
+        }
     }
 }
